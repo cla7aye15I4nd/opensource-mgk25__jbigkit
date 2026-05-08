@@ -80,6 +80,8 @@ static int line_out(const struct jbg85_dec_state *s,
   assert(jbg85_dec_validwidth(s));
   assert(len == (jbg85_dec_getwidth(s) >> 3) + !!(jbg85_dec_getwidth(s) & 7));
   assert(y < jbg85_dec_getheight(s));
+  assert(!jbg85_dec_finished(s));
+  assert(jbg85_dec_finalheight(s) == !(s->options & JBG_VLENGTH));
   memcpy((unsigned char *) bitmap + len * y, start, len);
   return 0;
 }
@@ -193,6 +195,8 @@ static int test_cycle(unsigned char *orig_image, int width, int height,
 	   (long) cnt, sjd.y);
     trouble++;
   } else {
+    assert(jbg85_dec_finished(&sjd));
+    assert(jbg85_dec_finalheight(&sjd));
     printf("Image comparison: ");
     result = 1;
     if (memcmp(orig_image, image, plane_size)) {
@@ -224,6 +228,8 @@ static int test_cycle(unsigned char *orig_image, int width, int height,
 	     FAILED "\nCause: '%s'\n", result, jbg85_strerror(result));
       trouble++;
     } else {
+      assert(jbg85_dec_finished(&sjd));
+      assert(jbg85_dec_finalheight(&sjd));
       printf("Image comparison: ");
       result = 1;
       if (memcmp(orig_image, image, plane_size)) {

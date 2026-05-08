@@ -167,7 +167,7 @@ const char *jbg85_strerror(int errnum);
 /* enquire about validity of image-size results */
 #define jbg85_dec_validwidth(s)  ((s)->bie_len == 20)
 #define jbg85_dec_finalheight(s) ((s)->bie_len == 20 &&			\
-				  ((((s)->options & JBG_VLENGHT) == 0) || \
+				  ((((s)->options & JBG_VLENGTH) == 0) || \
 				   ((s)->y >= (s)->y0)))
 
 #endif /* JBG85_H */
