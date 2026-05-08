@@ -3269,7 +3269,9 @@ int jbg_newlen(unsigned char *bie, size_t len)
   while ((p = jbg_next_pscdms(p, len - (p - bie)))) {
     if (p == bie + len)
       return JBG_EOK;
-    else if (p[0] == MARKER_ESC)
+    if (p + 1 >= bie + len)
+      return JBG_EAGAIN;
+    if (p[0] == MARKER_ESC)
       switch (p[1]) {
       case MARKER_NEWLEN:
         if (p + 5 >= bie + len)
