@@ -1,7 +1,7 @@
 /*
  *  Header file for the portable JBIG compression library
  *
- *  Copyright 1995-2014 -- Markus Kuhn -- http://www.cl.cam.ac.uk/~mgk25/
+ *  Copyright 1995-2026 -- Markus Kuhn -- https://www.cl.cam.ac.uk/~mgk25/
  */
 
 #ifndef JBG_H
@@ -21,7 +21,7 @@
 /*
  * JBIG-KIT licence agreement reference code:
  * If you use JBIG-KIT under a commercial licence, please replace
- * below the letters GPL with the reference code that you received
+ * the letters GPL below with the reference code that you received
  * with your licence agreement. (This code is typically a letter "A"
  * followed by four decimal digits, e.g. "A1234".)
  */
@@ -71,7 +71,7 @@ struct jbg_buf {
 
 #define JBG_DELAY_AT   0x100  /* Delay ATMOVE until the first line of the next
 			       * stripe. Option available for compatibility
-			       * with conformance test example in clause 7.2. */
+			       * with conformance test examples in clause 7.2. */
 
 #define JBG_SDRST      0x200  /* Use SDRST instead of SDNORM. This option is
 			       * there for anyone who needs to generate

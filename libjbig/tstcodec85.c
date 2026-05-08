@@ -3,7 +3,7 @@
  *
  *  Run this test sequence after each modification on the JBIG library.
  *
- *  Markus Kuhn -- http://www.cl.cam.ac.uk/~mgk25/
+ *  Markus Kuhn -- https://www.cl.cam.ac.uk/~mgk25/
  */
 
 #include <stdio.h>
@@ -448,7 +448,7 @@ int main(int argc, char **argv)
     puts("This is bad. If you cannot identify the problem yourself, please "
 	 "send\nthis output plus a detailed description of your "
 	 "compile environment\n(OS, compiler, version, options, etc.) to "
-	 "Markus Kuhn\n<http://www.cl.cam.ac.uk/~mgk25/>.");
+	 "Markus Kuhn\n<https://www.cl.cam.ac.uk/~mgk25/>.");
   else
     puts("Congratulations, everything is fine.\n");
 

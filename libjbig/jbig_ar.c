@@ -2,7 +2,7 @@
  *  Arithmetic encoder and decoder of the portable JBIG
  *  compression library
  *
- *  Markus Kuhn -- http://www.cl.cam.ac.uk/~mgk25/jbigkit/
+ *  Markus Kuhn -- https://www.cl.cam.ac.uk/~mgk25/jbigkit/
  *
  *  This module implements a portable standard C arithmetic encoder
  *  and decoder used by the JBIG lossless bi-level image compression
@@ -94,7 +94,7 @@ static unsigned char nlpstab[113] = {
 };
 
 /*
- * The next functions implement the arithmedic encoder and decoder
+ * The next functions implement the arithmetic encoder and decoder
  * required for JBIG. The same algorithm is also used in the arithmetic
  * variant of JPEG.
  */
@@ -197,7 +197,7 @@ void arith_encode(struct jbg_arenc_state *s, int cx, int pix)
       s->a = lsz;
     }
     /* Check whether MPS/LPS exchange is necessary
-     * and chose next probability estimator status */
+     * and choose next probability estimator status */
     *st &= 0x80;
     *st ^= nlpstab[ss];
   } else {
@@ -211,7 +211,7 @@ void arith_encode(struct jbg_arenc_state *s, int cx, int pix)
       s->c += s->a;
       s->a = lsz;
     }
-    /* chose next probability estimator status */
+    /* choose next probability estimator status */
     *st &= 0x80;
     *st |= nmpstab[ss];
   }
@@ -309,7 +309,7 @@ void arith_decode_init(struct jbg_ardec_state *s, int reuse_st)
  * terminates) the PSCD, but before decoding the first symbol that
  * depends on a bit in the input data that could have been the result
  * of zero padding, and might, therefore, never have been encoded.
- * This gives the caller the opportunity to lookahead early enough
+ * This gives the caller the opportunity to look ahead early enough
  * beyond a terminating SDNORM/SDRST for a trailing NEWLEN (as
  * required by T.85) before decoding remaining symbols. Call the
  * decoder again afterwards as often as necessary (leaving s->pscd_ptr
@@ -385,7 +385,7 @@ int arith_decode(struct jbg_ardec_state *s, int cx)
       if (s->a < lsz) {
 	pix = 1 - (*st >> 7);
 	/* Check whether MPS/LPS exchange is necessary
-	 * and chose next probability estimator status */
+	 * and choose next probability estimator status */
 	*st &= 0x80;
 	*st ^= nlpstab[ss];
       } else {
@@ -407,7 +407,7 @@ int arith_decode(struct jbg_ardec_state *s, int cx)
       s->a = lsz;
       pix = 1 - (*st >> 7);
       /* Check whether MPS/LPS exchange is necessary
-       * and chose next probability estimator status */
+       * and choose next probability estimator status */
       *st &= 0x80;
       *st ^= nlpstab[ss];
     }
