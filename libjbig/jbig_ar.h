@@ -15,13 +15,13 @@
 struct jbg_arenc_state {
   unsigned char st[4096];    /* probability status for contexts, MSB = MPS */
   unsigned long c;                /* register C: base of coding interval,  *
-                                   * layout as in Table 23                 */
+                                   * layout as in T.82 Table 23            */
   unsigned long a;       /* register A: normalized size of coding interval */
   long sc;     /* number of buffered 0xff values that might still overflow */
-  int ct;  /* bit shift counter, determines when next byte will be written */
+  int ct;  /* bit-shift counter, determines when next byte will be written */
   int buffer;                /* buffer for most recent output byte != 0xff */
   void (*byte_out)(int, void *);  /* function that receives all PSCD bytes */
-  void *file;                              /* parameter passed to byte_out */
+  void *file;                            /* parameter passed to byte_out() */
 };
 
 /*
@@ -31,7 +31,7 @@ struct jbg_arenc_state {
 struct jbg_ardec_state {
   unsigned char st[4096];    /* probability status for contexts, MSB = MPS */
   unsigned long c;                /* register C: base of coding interval,  *
-                                   * layout as in Table 25                 */
+                                   * layout as in T.82 Table 25            */
   unsigned long a;       /* register A: normalized size of coding interval */
   unsigned char *pscd_ptr;               /* pointer to next PSCD data byte */
   unsigned char *pscd_end;                   /* pointer to byte after PSCD */

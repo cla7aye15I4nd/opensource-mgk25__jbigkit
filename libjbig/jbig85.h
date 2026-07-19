@@ -30,7 +30,7 @@
 #define JBG85_LICENCE    "GPL"
 
 /*
- * Maximum number of ATMOVEs per stripe that decoder can handle
+ * Maximum number of ATMOVEs per stripe that the decoder can handle
  */
 
 #define JBG85_ATMOVES_MAX  1
@@ -121,14 +121,14 @@ struct jbg85_dec_state {
 					             * AT move will happen */
   int at_tx[JBG85_ATMOVES_MAX];      /* ATMOVE x-offsets in current stripe */
   unsigned long line_h1, line_h2, line_h3;     /* variables of decode_pscd */
-  int pseudo;         /* flag for TPBON/TPDON:  next pixel is pseudo pixel */
+  int pseudo;               /* flag for TPBON:  next pixel is pseudo pixel */
   int lntp;                            /* flag for TP: line is not typical */
   int (*line_out)(const struct jbg85_dec_state *s,
 		  unsigned char *start, size_t len,
 		  unsigned long y, void *file);
                                                     /* data write callback */
-  void *file;                            /* parameter passed to data_out() */
-  int intr;                      /* flag that line_out requested interrupt */
+  void *file;                            /* parameter passed to line_out() */
+  int intr;                    /* flag that line_out() requested interrupt */
   int end_of_bie;       /* flag that the end of the BIE has been signalled */
 };
 

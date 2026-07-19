@@ -29,7 +29,7 @@
 #define JBG_LICENCE    "GPL"
 
 /*
- * Buffer block for SDEs which are temporarily stored by encoder
+ * Buffer block for SDEs which are temporarily stored by the encoder
  */
 
 #define JBG_BUFSIZE 4000
@@ -45,7 +45,7 @@ struct jbg_buf {
 };
 
 /*
- * Maximum number of ATMOVEs per stripe that decoder can handle
+ * Maximum number of ATMOVEs per stripe that the decoder can handle
  */
 
 #define JBG_ATMOVES_MAX  64
@@ -98,7 +98,7 @@ struct jbg_buf {
 struct jbg_enc_state {
   int d;                            /* resolution layer of the input image */
   unsigned long xd, yd;    /* size of the input image (resolution layer d) */
-  unsigned long yd1;    /* BIH announced height of image, use yd1 != yd to
+  unsigned long yd1;    /* BIH-announced height of image, use yd1 != yd to
                         emulate T.85-style NEWLEN height updates for tests */
   int planes;                         /* number of different bitmap planes */
   int dl;                       /* lowest resolution layer in the next BIE */
@@ -178,8 +178,8 @@ struct jbg_dec_state {
   int pseudo;         /* flag for TPBON/TPDON:  next pixel is pseudo pixel */
   int **lntp;        /* flag [plane][layer-dl] for TP: line is not typical */
 
-  unsigned long xmax, ymax;         /* if possible abort before image gets *
-				     * larger than this size */
+  unsigned long xmax, ymax;        /* if possible, abort before image gets *
+				    * larger than this size */
   int dmax;                                      /* abort after this layer */
   size_t maxmem;               /* return JBG_ENOMEM if final image layer D
                                   would require more than maxmem bytes     */

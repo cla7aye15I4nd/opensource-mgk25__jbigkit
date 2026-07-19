@@ -32,7 +32,7 @@
 
 /*
  *  Probability estimation tables for the arithmetic encoder/decoder
- *  given by ITU T.82 Table 24.
+ *  given by ITU-T T.82 Table 24.
  */
 
 static short lsztab[113] = {
@@ -94,7 +94,7 @@ static unsigned char nlpstab[113] = {
 };
 
 /*
- * The next functions implement the arithmetic encoder and decoder
+ * The following functions implement the arithmetic encoder and decoder
  * required for JBIG. The same algorithm is also used in the arithmetic
  * variant of JPEG.
  */
@@ -123,7 +123,7 @@ void arith_encode_flush(struct jbg_arenc_state *s)
 {
   unsigned long temp;
 
-  /* find the s->c in the coding interval with the largest
+  /* pick for s->c the value in the coding interval with the largest
    * number of trailing zero bits */
   if ((temp = (s->a - 1 + s->c) & 0xffff0000L) < s->c)
     s->c = temp + 0x8000;
@@ -138,7 +138,7 @@ void arith_encode_flush(struct jbg_arenc_state *s)
       if (s->buffer + 1 == MARKER_ESC)
 	s->byte_out(MARKER_STUFF, s->file);
     }
-    /* output 0x00 bytes only when more non-0x00 will follow */
+    /* output 0x00 bytes only when more non-0x00 bytes will follow */
     if (s->c & 0x7fff800L)
       for (; s->sc; --s->sc)
 	s->byte_out(0x00, s->file);
@@ -275,10 +275,10 @@ void arith_decode_init(struct jbg_ardec_state *s, int reuse_st)
 
 /*
  * Decode and return one symbol from the provided PSCD byte stream
- * that starts in s->pscd_ptr and ends in the byte before s->pscd_end.
+ * that starts at s->pscd_ptr and ends at the byte before s->pscd_end.
  * The context cx is a 12-bit integer in the range 0..4095. This
  * function will advance s->pscd_ptr each time it has consumed all
- * information from that PSCD byte.
+ * information from the current PSCD byte.
  *
  * If a symbol has been decoded successfully, the return value will be
  * 0 or 1 (depending on the symbol).
@@ -297,8 +297,8 @@ void arith_decode_init(struct jbg_ardec_state *s, int reuse_st)
  * s->pscd_ptr == s->pscd_end - 1:
  *
  *   The decoder has used up all provided PSCD bytes except for the
- *   very last byte, because that has the value 0xff. The decoder can
- *   at this point not yet tell whether this 0xff belongs to a
+ *   very last byte, because that has the value 0xff. The decoder
+ *   cannot yet tell at this point whether this 0xff belongs to a
  *   MARKER_STUFF sequence or marks the end of the PSCD. Further PSCD
  *   bytes have to be provided (via new values of s->pscd_ptr and/or
  *   s->pscd_end), including the not yet processed 0xff byte, before
