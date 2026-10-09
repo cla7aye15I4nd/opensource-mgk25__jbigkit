@@ -40,5 +40,5 @@ distribution:
 	tar cvaf jbigkit-$(VERSION).tar.gz jbigkit-$(VERSION)
 
 release:
-	rsync -t jbigkit-$(VERSION).tar.gz $(HOME)/public_html/download/
+	rsync -t jbigkit-$(VERSION).tar.gz $(HOME)/public_html/jbigkit/download/
 	rsync -t jbigkit-$(VERSION)/CHANGES $(HOME)/public_html/jbigkit/
