@@ -158,9 +158,6 @@ int main (int argc, char **argv)
 	  case '-' :
 	    all_args = 1;
 	    break;
-	  case 0 :
-	    if (files++) usage();
-	    break;
 	  case 'v':
 	    verbose = 1;
 	    break;
@@ -356,16 +353,6 @@ int main (int argc, char **argv)
   }
   if (ferr)
     input_error(fin, fnin);
-
-  /* Test for valid parameters */
-  if (width < 1 || height < 1) {
-    fprintf(stderr, "Image dimensions must be positive!\n");
-    exit(1);
-  }
-  if (encode_planes < 1 || encode_planes > 255) {
-    fprintf(stderr, "Number of planes must be in range 1-255!\n");
-    exit(1);
-  }
 
   /* Test the final byte in each image line for correct zero padding */
   if ((width & 7) && type == '4') {

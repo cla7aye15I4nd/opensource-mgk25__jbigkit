@@ -137,9 +137,6 @@ int main (int argc, char **argv)
 	  case '-' :
 	    all_args = 1;
 	    break;
-	  case 0 :
-	    if (files++) usage();
-	    break;
 	  case 'Y':
 	    if (i+2 >= argc) usage();
 	    j = -1;
