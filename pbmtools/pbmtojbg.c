@@ -417,6 +417,18 @@ int main (int argc, char **argv)
   /* now encode everything and send it to data_out() */
   jbg_enc_out(&s);
 
+  /* jbg_enc_out() silently produces nothing if it was handed a
+   * combination of parameters that it cannot encode */
+  if (total_length == 0) {
+    fprintf(stderr, "Nothing encoded: unsuitable combination of layer "
+	    "(-d, -l, -h) and stripe height (-s) options!\n");
+    if (fout != stdout) {
+      fclose(fout);
+      remove(fnout);
+    }
+    exit(1);
+  }
+
   /* give encoder a chance to free its temporary data structures */
   jbg_enc_free(&s);
 
