@@ -217,7 +217,7 @@ int main (int argc, char **argv)
   if (fnout) {
     fout = fopen(fnout, "wb");
     if (!fout) {
-      fprintf(stderr, "Can't open input file '%s", fnout);
+      fprintf(stderr, "Can't open output file '%s", fnout);
       perror("'");
       exit(1);
     }

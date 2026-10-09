@@ -265,15 +265,6 @@ int main (int argc, char **argv)
     }
   } else
     fnin  = "<stdin>";
-  if (fnout) {
-    fout = fopen(fnout, "wb");
-    if (!fout) {
-      fprintf(stderr, "Can't open input file '%s", fnout);
-      perror("'");
-      exit(1);
-    }
-  } else
-    fnout = "<stdout>";
 
   /* read PBM header */
   while ((c = getc(fin)) != EOF && (isspace(c) || c == '#'))
@@ -385,6 +376,17 @@ int main (int argc, char **argv)
 	break;
       }
   }
+
+  /* open output file only after the input file has been read completely */
+  if (fnout) {
+    fout = fopen(fnout, "wb");
+    if (!fout) {
+      fprintf(stderr, "Can't open output file '%s", fnout);
+      perror("'");
+      exit(1);
+    }
+  } else
+    fnout = "<stdout>";
 
   /* Apply JBIG algorithm and write BIE to output file */
 

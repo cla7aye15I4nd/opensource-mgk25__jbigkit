@@ -362,15 +362,6 @@ int main (int argc, char **argv)
     diagnose_bie(fin);
     exit(0);
   }
-  if (fnout) {
-    fout = fopen(fnout, "wb");
-    if (!fout) {
-      fprintf(stderr, "Can't open input file '%s", fnout);
-      perror("'");
-      exit(1);
-    }
-  } else
-    fnout = "<stdout>";
 
   /* send input file to decoder */
   jbg_dec_init(&s);
@@ -380,10 +371,6 @@ int main (int argc, char **argv)
   if (len < 20) {
     fprintf(stderr, "Input file '%s' (%lu bytes) must be at least "
 	    "20 bytes long\n", fnin, (unsigned long) len);
-    if (fout != stdout) {
-      fclose(fout);
-      remove(fnout);
-    }
     exit(1);
   }
   if (buffer[19] & JBG_VLENGTH) {
@@ -424,10 +411,6 @@ int main (int argc, char **argv)
     if (ferror(fin)) {
       fprintf(stderr, "Problem while reading input file '%s", fnin);
       perror("'");
-      if (fout != stdout) {
-	fclose(fout);
-	remove(fnout);
-      }
       exit(1);
     }
   }
@@ -436,20 +419,23 @@ int main (int argc, char **argv)
             "(error code 0x%02x, %lu = 0x%04lx BIE bytes processed)\n",
  	    fnin, jbg_strerror(result), result,
 	    (unsigned long) bytes_read, (unsigned long) bytes_read);
-    if (fout != stdout) {
-      fclose(fout);
-      remove(fnout);
-    }
     exit(1);
   }
   if (plane >= 0 && jbg_dec_getplanes(&s) <= plane) {
     fprintf(stderr, "Image has only %d planes!\n", jbg_dec_getplanes(&s));
-    if (fout != stdout) {
-      fclose(fout);
-      remove(fnout);
-    }
     exit(1);
   }
+
+  /* open output file only after the input has been decoded completely */
+  if (fnout) {
+    fout = fopen(fnout, "wb");
+    if (!fout) {
+      fprintf(stderr, "Can't open output file '%s", fnout);
+      perror("'");
+      exit(1);
+    }
+  } else
+    fnout = "<stdout>";
 
   if (jbg_dec_getplanes(&s) == 1 || plane >= 0) {
     /* write PBM output file */
