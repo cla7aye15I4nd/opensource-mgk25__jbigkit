@@ -4,8 +4,8 @@
 CC = gcc
 
 # Options for the compiler: A high optimization level is suggested
-CFLAGS = -O2 -W -Wno-unused-result
-# CFLAGS = -O -g -W -Wall -Wno-unused-result -ansi -pedantic # -DDEBUG
+CFLAGS = -O2 -W
+# CFLAGS = -O -g -W -Wall -ansi -pedantic # -DDEBUG
 
 export CC CFLAGS
 

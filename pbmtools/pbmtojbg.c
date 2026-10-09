@@ -74,27 +74,41 @@ void *checkedmalloc(size_t n)
 
 
 /*
- * Read an ASCII integer number from file f and skip any PBM
- * comments which are encountered.
+ * Report a problem with the input file and abort
  */
-static unsigned long getint(FILE *f)
+static void input_error(FILE *f, const char *fn)
+{
+  if (ferror(f)) {
+    fprintf(stderr, "Problem while reading input file '%s", fn);
+    perror("'");
+  } else
+    fprintf(stderr, "Unexpected end of input file '%s'!\n", fn);
+  exit(1);
+}
+
+
+/*
+ * Read an ASCII integer number from file f into *value and skip any
+ * PBM comments which are encountered. Returns 0 if a number was read
+ * and EOF if the end of the file (or a read error) came first.
+ */
+static int getint(FILE *f, unsigned long *value)
 {
   int c;
-  unsigned long i;
 
   while ((c = getc(f)) != EOF)
     if (c == '#')
       while ((c = getc(f)) != EOF && !(c == 13 || c == 10)) ;
     else if (!isspace(c))
       break;
-  if (c == EOF) return 0;
+  if (c == EOF) return EOF;
   ungetc(c, f);
-  if (fscanf(f, "%lu", &i) != 1) {
+  if (fscanf(f, "%lu", value) != 1) {
     fprintf(stderr, "Unsigned integer value expected!\n");
     exit(1);
   }
 
-  return i;
+  return 0;
 }
 
 
@@ -115,7 +129,7 @@ int main (int argc, char **argv)
   FILE *fin = stdin, *fout = stdout;
   const char *fnin = NULL, *fnout = NULL;
   int i, j, c;
-  int all_args = 0, files = 0;
+  int all_args = 0, files = 0, ferr = 0;
   unsigned long x, y;
   unsigned long width, height, max, v;
   unsigned long bpl;
@@ -270,17 +284,18 @@ int main (int argc, char **argv)
     exit(1);
   }
   type = getc(fin);
-  width = getint(fin);
-  height = getint(fin);
+  if (getint(fin, &width) || getint(fin, &height))
+    input_error(fin, fnin);
   if (width < 1 || height < 1 ||
       width > 0xffffffff || height > 0xffffffff) {
     fprintf(stderr, "Invalid width or height!\n");
     exit(1);
   }
   if (type == '2' || type == '5' ||
-      type == '3' || type == '6')
-    max = getint(fin);
-  else
+      type == '3' || type == '6') {
+    if (getint(fin, &max))
+      input_error(fin, fnin);
+  } else
     max = 1;
   if (max < 1) {
     fprintf(stderr, "Invalid maxval!\n");
@@ -307,18 +322,20 @@ int main (int argc, char **argv)
   case '1':
     /* PBM text format */
     p = bitmap[0];
-    for (y = 0; y < height; y++)
+    for (y = 0; y < height && !ferr; y++)
       for (x = 0; x <= ((width-1) | 7); x++) {
 	*p <<= 1;
-	if (x < width)
-	  *p |= getint(fin) & 1;
+	if (x < width) {
+	  if (getint(fin, &v)) { ferr = 1; break; }
+	  *p |= v & 1;
+	}
 	if ((x & 7) == 7)
 	  ++p;
       }
     break;
   case '4':
     /* PBM raw binary format */
-    fread(bitmap[0], bitmap_size, 1, fin);
+    ferr = fread(bitmap[0], bitmap_size, 1, fin) != 1;
     break;
   case '2':
   case '5':
@@ -330,12 +347,14 @@ int main (int argc, char **argv)
     image = (unsigned char *) checkedmalloc(width * height * bpp);
     if (type == '2') {
       for (x = 0; x < width * height; x++) {
-	v = getint(fin);
+	if (getint(fin, &v)) { ferr = 1; break; }
 	for (j = 0; j < bpp; j++)
 	  image[x * bpp + (bpp - 1) - j] = v >> (j * 8);
       }
     } else
-      fread(image, width * height, bpp, fin);
+      ferr = fread(image, width * height, bpp, fin) != (size_t) bpp;
+    if (ferr)
+      input_error(fin, fnin);   /* image[] is only partially filled */
     jbg_split_planes(width, height, planes, encode_planes, image, bitmap,
 		     use_graycode);
     free(image);
@@ -344,15 +363,8 @@ int main (int argc, char **argv)
     fprintf(stderr, "Unsupported PBM type P%c!\n", type);
     exit(1);
   }
-  if (ferror(fin)) {
-    fprintf(stderr, "Problem while reading input file '%s", fnin);
-    perror("'");
-    exit(1);
-  }
-  if (feof(fin)) {
-    fprintf(stderr, "Unexpected end of input file '%s'!\n", fnin);
-    exit(1);
-  }
+  if (ferr)
+    input_error(fin, fnin);
 
   /* Test for valid parameters */
   if (width < 1 || height < 1) {

@@ -58,27 +58,41 @@ void *checkedmalloc(size_t n)
 
 
 /*
- * Read an ASCII integer number from file f and skip any PBM
- * comments which are encountered.
+ * Report a problem with the input file and abort
  */
-static unsigned long getint(FILE *f)
+static void input_error(FILE *f, const char *fn)
+{
+  if (ferror(f)) {
+    fprintf(stderr, "Problem while reading input file '%s", fn);
+    perror("'");
+  } else
+    fprintf(stderr, "Unexpected end of input file '%s'!\n", fn);
+  exit(1);
+}
+
+
+/*
+ * Read an ASCII integer number from file f into *value and skip any
+ * PBM comments which are encountered. Returns 0 if a number was read
+ * and EOF if the end of the file (or a read error) came first.
+ */
+static int getint(FILE *f, unsigned long *value)
 {
   int c;
-  unsigned long i;
 
   while ((c = getc(f)) != EOF)
     if (c == '#')
       while ((c = getc(f)) != EOF && !(c == 13 || c == 10)) ;
     else if (!isspace(c))
       break;
-  if (c == EOF) return 0;
+  if (c == EOF) return EOF;
   ungetc(c, f);
-  if (fscanf(f, "%lu", &i) != 1) {
+  if (fscanf(f, "%lu", value) != 1) {
     fprintf(stderr, "Unsigned integer value expected!\n");
     exit(1);
   }
 
-  return i;
+  return 0;
 }
 
 
@@ -98,8 +112,8 @@ int main (int argc, char **argv)
   FILE *fin = stdin, *fout = stdout;
   const char *fnin = NULL, *fnout = NULL;
   int i, j, c;
-  int all_args = 0, files = 0;
-  unsigned long x, y;
+  int all_args = 0, files = 0, ferr = 0;
+  unsigned long x, y, v;
   unsigned long width, height;
   size_t bpl;
   char type;
@@ -184,8 +198,8 @@ int main (int argc, char **argv)
     fprintf(stderr, "Input file '%s' does not look like a PBM file!\n", fnin);
     exit(1);
   }
-  width = getint(fin);
-  height = getint(fin);
+  if (getint(fin, &width) || getint(fin, &height))
+    input_error(fin, fnin);
   fgetc(fin);    /* skip line feed */
 
   /* Test for valid parameters */
@@ -235,29 +249,24 @@ int main (int argc, char **argv)
       p = next_line;
       for (x = 0; x <= ((width-1) | 7); x++) {
 	*p <<= 1;
-	if (x < width)
-	  *p |= getint(fin) & 1;
+	if (x < width) {
+	  if (getint(fin, &v)) { ferr = 1; break; }
+	  *p |= v & 1;
+	}
 	if ((x & 7) == 7)
 	  ++p;
       }
       break;
     case '4':
       /* PBM raw binary format */
-      fread(next_line, bpl, 1, fin);
+      ferr = fread(next_line, bpl, 1, fin) != 1;
       break;
     default:
       fprintf(stderr, "Unsupported PBM type P%c!\n", type);
       exit(1);
     }
-    if (ferror(fin)) {
-      fprintf(stderr, "Problem while reading input file '%s", fnin);
-      perror("'");
-      exit(1);
-    }
-    if (feof(fin)) {
-      fprintf(stderr, "Unexpected end of input file '%s'!\n", fnin);
-      exit(1);
-    }
+    if (ferr)
+      input_error(fin, fnin);
 
     /* JBIG compress another line and write out result via callback */
     jbg85_enc_lineout(&s, next_line, prev_line, prevprev_line);
