@@ -145,11 +145,12 @@ to simplify search operations.
 2.1  Format of the source image
 
 To be processed by the jbig.c encoder, the image has to be present in
-memory as separate bitmap planes. Each byte of a bitmap contains eight
-pixels, where the most significant bit represents the leftmost of
-these. Each line of a bitmap has to be stored in an integral number of
-bytes. If the image width is not an integral multiple of eight, then
-the final byte has to be padded with zero bits.
+memory as a separate bitmap per bit plane. Each byte of a bitmap
+contains eight pixels, where the most significant bit represents the
+leftmost of these. Each line of a bitmap has to be stored in an
+integral number of bytes. If the image width is not an integral
+multiple of eight, then the final byte has to be padded with zero
+bits.
 
 For example, the 23x5-pixel single-plane image:
 
@@ -260,7 +261,7 @@ The parameters have the following meaning:
 
   y             The height of your image in pixels (lines).
 
-  pl            The number of bitmap planes you want to encode.
+  pl            The number of bit planes you want to encode.
 
   p             A pointer to an array of pl pointers, where each in turn
                 points to the first byte of a bitmap as described in
@@ -637,9 +638,10 @@ and macros
   unsigned long jbg_dec_getsize(const struct jbg_dec_state *s);
 
 can be used to query the dimensions of the now completely decoded
-image and to get a pointer to all bitmap planes. The bitmaps are
-stored as described in section 2.1. The function jbg_dec_getsize()
-calculates the number of bytes which one bitmap requires.
+image and to get a pointer to the bitmap of each bit plane. The
+bitmaps are stored as described in section 2.1. The function
+jbg_dec_getsize() calculates the number of bytes which one bitmap
+requires.
 
 The function
 

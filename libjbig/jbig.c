@@ -2963,7 +2963,7 @@ unsigned char *jbg_dec_getimage(const struct jbg_dec_state *s, int plane)
 /*
  * After jbg_dec_in() returned JBG_EOK or JBG_EOK_INTR, you can call
  * this function in order to find out the size in bytes of one
- * bitplane of the image.
+ * bit plane of the image.
  */
 unsigned long jbg_dec_getsize(const struct jbg_dec_state *s)
 {
@@ -3073,10 +3073,10 @@ void jbg_split_planes(unsigned long x, unsigned long y, int has_planes,
     memset(dest[p], 0, bpl * y);
 
   for (line = 0; line < y; line++) {                 /* lines loop */
-    for (i = 0; i * 8 < x; i++) {                    /* dest bytes loop */
+    for (i = 0; i * 8 < x; i++) {                    /* dest-byte loop */
       for (k = 0; k < 8 && i * 8 + k < x; k++) {     /* pixel loop */
 	prev = 0;
-	for (p = 0; p < encode_planes; p++) {        /* bit planes loop */
+	for (p = 0; p < encode_planes; p++) {        /* bit-plane loop */
 	  /* calculate which bit in *src do we want */
 	  bitno = (msb - p) & 7;
 	  /* put this bit with its left neighbour right adjusted into bits */

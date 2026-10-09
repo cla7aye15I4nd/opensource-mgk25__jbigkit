@@ -32,7 +32,7 @@ static void usage(void)
      "  -y number\tmaximum height of lowest resolution layer (default 480)\n"
      "  -l number\tlowest layer written to output file (default 0)\n"
      "  -h number\thighest layer written to output file (default max)\n"
-     "  -b\t\tuse binary code for multiple bitplanes (default: Gray code)\n"
+     "  -b\t\tuse binary code for multiple bit planes (default: Gray code)\n"
      "  -d number\ttotal number of differential layers (overrides -x and -y)\n"
      "  -s number\theight of a stripe in layer 0\n");
   fprintf(stderr,

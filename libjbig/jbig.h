@@ -100,7 +100,7 @@ struct jbg_enc_state {
   unsigned long xd, yd;    /* size of the input image (resolution layer d) */
   unsigned long yd1;    /* BIH-announced height of image, use yd1 != yd to
                         emulate T.85-style NEWLEN height updates for tests */
-  int planes;                         /* number of different bitmap planes */
+  int planes;                            /* number of different bit planes */
   int dl;                       /* lowest resolution layer in the next BIE */
   int dh;                      /* highest resolution layer in the next BIE */
   unsigned long l0;                /* number of lines per stripe at lowest *
@@ -138,7 +138,7 @@ struct jbg_dec_state {
   int d;                             /* resolution layer of the full image */
   int dl;                            /* first resolution layer in this BIE */
   unsigned long xd, yd;     /* size of the full image (resolution layer d) */
-  int planes;                         /* number of different bitmap planes */
+  int planes;                            /* number of different bit planes */
   unsigned long l0;                /* number of lines per stripe at lowest *
 				    * resolution layer 0                   */
   unsigned long stripes;    /* number of stripes required  (determ. by l0) */
