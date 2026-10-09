@@ -207,6 +207,11 @@ sure your compiler can find the file jbig85.h and put the line
 
 into your source code.
 
+The header file jbig85.h defines the version of JBIG-KIT as a string
+in JBG85_VERSION ("2.1") and as two numbers in JBG85_VERSION_MAJOR (2)
+and JBG85_VERSION_MINOR (1). Applications that have to support several
+versions of JBIG-KIT can use the latter two in #if preprocessor tests.
+
 The library interface follows object-oriented programming principles.
 You have to declare a variable (object)
 

@@ -31,6 +31,10 @@ untrusted sources should upgrade.
 
   - fuzz-testing script added
 
+  - numeric version macros JBG_VERSION_MAJOR and JBG_VERSION_MINOR
+    added to jbig.h (and JBG85_* equivalents to jbig85.h), for use in
+    #if tests by applications supporting several JBIG-KIT versions
+
 
 Changes in version 2.0 (2008-08-30)
 
