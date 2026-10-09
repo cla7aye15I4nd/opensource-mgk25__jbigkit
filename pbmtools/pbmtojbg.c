@@ -137,6 +137,7 @@ int main (int argc, char **argv)
   size_t bitmap_size;
   char type;
   unsigned char **bitmap, *p, *image;
+  unsigned char b = 0;   /* assembles 8 pixels of PBM text format */
   struct jbg_enc_state s;
   int verbose = 0, delay_at = 0, reset = 0, use_graycode = 1;
   long mwidth = 640, mheight = 480;
@@ -312,13 +313,13 @@ int main (int argc, char **argv)
     p = bitmap[0];
     for (y = 0; y < height && !ferr; y++)
       for (x = 0; x <= ((width-1) | 7); x++) {
-	*p <<= 1;
 	if (x < width) {
 	  if (getint(fin, &v)) { ferr = 1; break; }
-	  *p |= v & 1;
-	}
+	  b = (b << 1) | (v & 1);
+	} else
+	  b <<= 1;                    /* zero padding at the end of the line */
 	if ((x & 7) == 7)
-	  ++p;
+	  *p++ = b;
       }
     break;
   case '4':

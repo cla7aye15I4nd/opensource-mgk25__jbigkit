@@ -119,6 +119,7 @@ int main (int argc, char **argv)
   char type;
   unsigned char *p, *lines, *next_line;
   unsigned char *prev_line = NULL, *prevprev_line = NULL;
+  unsigned char b = 0;   /* assembles 8 pixels of PBM text format */
   struct jbg85_enc_state s;
   int mx = -1;
   unsigned long l0 = 0, yi = 0, yr = 0;
@@ -245,13 +246,13 @@ int main (int argc, char **argv)
       /* PBM text format */
       p = next_line;
       for (x = 0; x <= ((width-1) | 7); x++) {
-	*p <<= 1;
 	if (x < width) {
 	  if (getint(fin, &v)) { ferr = 1; break; }
-	  *p |= v & 1;
-	}
+	  b = (b << 1) | (v & 1);
+	} else
+	  b <<= 1;                    /* zero padding at the end of the line */
 	if ((x & 7) == 7)
-	  ++p;
+	  *p++ = b;
       }
       break;
     case '4':
