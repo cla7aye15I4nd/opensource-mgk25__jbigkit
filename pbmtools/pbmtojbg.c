@@ -51,7 +51,7 @@ static void usage(void)
   fprintf(stderr,
      "  -Y number\tannounce in header initially this larger image height\n"
      "\t\t(only for generating test files with NEWLEN and VLENGTH=1)\n"
-     "  -f\t\tchose encoding options for T.85 fax profile complianance\n"
+     "  -f\t\tchoose encoding options for T.85 fax profile compliance\n"
      "  -v\t\tverbose output\n\n");
   exit(1);
 }
