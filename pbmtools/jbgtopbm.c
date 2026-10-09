@@ -1,7 +1,7 @@
 /*
  *  jbgtopbm - JBIG to Portable Bitmap converter
  *
- *  Markus Kuhn - http://www.cl.cam.ac.uk/~mgk25/jbigkit/
+ *  Markus Kuhn -- https://www.cl.cam.ac.uk/~mgk25/jbigkit/
  */
 
 #include <stdio.h>
@@ -23,9 +23,9 @@ static void usage(void)
      "usage: %s [<options>] [<input-file> | -  [<output-file>]]\n\n"
      "options:\n\n", progname);
   fprintf(stderr,
-     "  -x number\tif possible decode only up to a resolution layer not\n"
+     "  -x number\tif possible, decode only up to a resolution layer not\n"
      "\t\twider than the given number of pixels\n"
-     "  -y number\tif possible decode only up to a resolution layer not\n"
+     "  -y number\tif possible, decode only up to a resolution layer not\n"
      "\t\thigher than the given number of pixels\n"
      "  -m\t\tdecode a progressive sequence of multiple concatenated BIEs\n"
      "  -b\t\tuse binary code for multiple bit planes (default: Gray code)\n"
@@ -44,7 +44,7 @@ void write_it(unsigned char *data, size_t len, void *file)
 }
 
 /*
- * Remalloc a buffer and append a file f into its content.
+ * Reallocate a buffer and append the contents of file f to it.
  * If *buflen == 0, then malloc a buffer first.
  */
 void read_file(unsigned char **buf, size_t *buflen, size_t *len, FILE *f)
@@ -297,7 +297,7 @@ int main (int argc, char **argv)
   buflen = 8000;
   buffer = (unsigned char *) malloc(buflen);
   if (!buffer) {
-    printf("Sorry, not enough memory available!\n");
+    fprintf(stderr, "Sorry, not enough memory available!\n");
     exit(1);
   }
 

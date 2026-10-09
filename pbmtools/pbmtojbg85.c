@@ -1,7 +1,7 @@
 /*
  *  pbmtojbg85 - Portable Bitmap to JBIG converter (T.85 version)
  *
- *  Markus Kuhn - http://www.cl.cam.ac.uk/~mgk25/jbigkit/
+ *  Markus Kuhn -- https://www.cl.cam.ac.uk/~mgk25/jbigkit/
  */
 
 #include <stdio.h>
@@ -34,9 +34,9 @@ static void usage(void)
   fprintf(stderr,
      "  -C string\tadd the provided string as a comment marker segment\n");
   fprintf(stderr,
-     "  -Y yi yr\tannounce in header initially the larger image height yi\n"
-     "\t\tand then announce after line yr has been encoded the real height\n"
-     "\t\tusing NEWLEN marker (for testing NEWLEN and VLENGTH=1 function)\n\n");
+     "  -Y yi yr\tannounce in header initially the larger image height yi,\n"
+     "\t\tthen announce the real height after line yr has been encoded,\n"
+     "\t\tusing a NEWLEN marker (to test NEWLEN and VLENGTH=1)\n\n");
   exit(1);
 }
 
@@ -97,7 +97,7 @@ static int getint(FILE *f, unsigned long *value)
 
 
 /*
- * Callback procedure which is used by JBIG encoder to deliver the
+ * Call-back procedure which is used by the JBIG encoder to deliver the
  * encoded data. It simply sends the bytes to the output file.
  */
 static void data_out(unsigned char *start, size_t len, void *file)
@@ -222,7 +222,7 @@ int main (int argc, char **argv)
   } else
     fnout = "<stdout>";
 
-  /* initialize parameter struct for JBIG encoder*/
+  /* initialize parameter struct for JBIG encoder */
   jbg85_enc_init(&s, width, yi ? yi : height, data_out, fout);
 
   /* Specify a few other options (each is ignored if negative) */
@@ -266,7 +266,7 @@ int main (int argc, char **argv)
     if (ferr)
       input_error(fin, fnin);
 
-    /* JBIG compress another line and write out result via callback */
+    /* JBIG compress another line and write out result via call-back */
     jbg85_enc_lineout(&s, next_line, prev_line, prevprev_line);
     prevprev_line = prev_line;
     prev_line = next_line;

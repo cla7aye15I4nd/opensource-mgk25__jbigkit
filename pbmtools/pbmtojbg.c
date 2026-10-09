@@ -1,7 +1,7 @@
 /*
  *  pbmtojbg - Portable Bitmap to JBIG converter
  *
- *  Markus Kuhn - http://www.cl.cam.ac.uk/~mgk25/jbigkit/
+ *  Markus Kuhn -- https://www.cl.cam.ac.uk/~mgk25/jbigkit/
  */
 
 #include <stdio.h>
@@ -113,7 +113,7 @@ static int getint(FILE *f, unsigned long *value)
 
 
 /*
- * Callback procedure which is used by JBIG encoder to deliver the
+ * Call-back procedure which is used by the JBIG encoder to deliver the
  * encoded data. It simply sends the bytes to the output file.
  */
 static void data_out(unsigned char *start, size_t len, void *file)
@@ -378,7 +378,7 @@ int main (int argc, char **argv)
 
   /* Apply JBIG algorithm and write BIE to output file */
 
-  /* initialize parameter struct for JBIG encoder*/
+  /* initialize parameter struct for JBIG encoder */
   jbg_enc_init(&s, width, height, encode_planes, bitmap, data_out, fout);
 
   /* Select number of resolution layers either directly or based
