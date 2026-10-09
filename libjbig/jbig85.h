@@ -15,9 +15,9 @@
  * JBIG-KIT version number
  */
 
-#define JBG85_VERSION    "2.1"
+#define JBG85_VERSION    "2.2"
 #define JBG85_VERSION_MAJOR 2
-#define JBG85_VERSION_MINOR 1
+#define JBG85_VERSION_MINOR 2
 
 /*
  * JBIG-KIT licence agreement reference code:

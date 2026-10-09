@@ -239,9 +239,9 @@ compiler can find the file jbig.h and put the line
 into your source code.
 
 The header file jbig.h defines the version of JBIG-KIT as a string in
-JBG_VERSION ("2.1") and as two numbers in JBG_VERSION_MAJOR (2) and
-JBG_VERSION_MINOR (1). Applications that have to support several
-versions of JBIG-KIT can use the latter two in #if preprocessor tests.
+JBG_VERSION and as two numbers in JBG_VERSION_MAJOR and
+JBG_VERSION_MINOR. Applications that have to support several versions
+of JBIG-KIT can use the latter two in #if preprocessor tests.
 
 The library interface follows object-oriented programming principles.
 You have to declare a variable (object)

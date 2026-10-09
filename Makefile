@@ -9,7 +9,7 @@ CFLAGS = -O2 -W
 
 export CC CFLAGS
 
-VERSION=2.1
+VERSION=2.2
 
 all: lib pbm
 	@echo "Enter 'make test' in order to start some automatic tests."

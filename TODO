@@ -10,8 +10,10 @@ Features regarding jbig.c that may appear in some future release:
 
   - multichannel (e.g., RGB) support, PPM support
 
-  - add dynamic library target to Makefile (patch by David Woodhouse),
-    for the benefit of Linux packagers
+  - add a shared-library target to the Makefile, for the benefit of
+    packagers; several mutually incompatible patches have been offered
+    over the years, so this needs one deliberate portable design
+    rather than any of them
 
 The NEWLEN handling in jbig.c remains less than ideal. There is no
 easy fix as NEWLEN is inherently incompatible with many of the other

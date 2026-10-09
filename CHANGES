@@ -2,7 +2,16 @@
 JBIG-KIT revision history
 -------------------------
 
-Changes in upcoming version (TBA)
+Changes in version 2.2 (2026-10-09)
+
+This release fixes a number of robustness problems in both the library
+and the command-line converters. Users who process BIE or PBM/PGM data
+from untrusted sources should upgrade.
+
+  - pbmtojbg and pbmtojbg85 now bound the width, height and maxval
+    read from a PBM/PGM header, and check the size calculations that
+    follow for integer overflow. Previously a crafted header could
+    make them allocate a truncated buffer and then write past its end.
 
   - The jbig.c decoder will now, by default, return JBG_ENOMEM if the
     final image layer would occupy more than two gigabytes. Users can
@@ -10,7 +19,43 @@ Changes in upcoming version (TBA)
     jbg_dec_init(&sd). This is to reduce the risk of denial-of-service
     attacks through excessive image dimensions (e.g., CVE-2017-9937).
 
-  - minor bug fixes and documentation clarifications
+  - jbg_newlen() now checks for the end of the data before reading a
+    marker code and within a NEWLEN marker segment
+
+  - fixed a typo in the jbg85_dec_finalheight() macro, which tested a
+    misspelled JBG_VLENGHT instead of JBG_VLENGTH
+
+  - jbg_enc_options() now tests the mx argument rather than my against
+    the permitted range
+
+  - jbgtopbm no longer divides by zero when option -d is applied to a
+    BIE with an invalid BIH
+
+  - pbmtojbg and jbgtopbm now open the output file only after the input
+    file has been read completely, so that converting a file onto
+    itself no longer destroys it
+
+  - jbgtopbm85 now writes its progress messages to stderr, so that
+    option -y no longer corrupts a PBM image written to standard output
+
+  - pbmtojbg now aborts with an error message if the chosen combination
+    of layer and stripe options encoded nothing, rather than silently
+    leaving an empty output file behind
+
+  - pbmtojbg and pbmtojbg85 now accept an ASCII PBM/PGM file whose
+    final value is not followed by white space
+
+  - "jbgtopbm -d" now also calculates the uncompressed image size
+
+  - the Makefile uses $(MAKE) and $(LDFLAGS) in more places
+
+  - the contrib directory, which held Atari ST project files
+    contributed in 1996, has been removed
+
+  - Polish translation PO file contributed by Jakub Bogusz
+
+  - numerous corrections to comments and documentation
+
 
 Changes in version 2.1 (2014-04-08)
 
