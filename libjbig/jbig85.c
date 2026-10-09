@@ -877,7 +877,7 @@ int jbg85_dec_in(struct jbg85_dec_state *s, unsigned char *data, size_t len,
     if (s->buffer[ 1] != 0) return JBG_EIMPL | 9; /* parameter outside T.85 */
     if (s->buffer[ 2] != 1) return JBG_EIMPL |10; /* parameter outside T.85 */
     if (s->buffer[17] != 0) return JBG_EIMPL |11; /* parameter outside T.85 */
-#if JBG85_STRICT_ORDER_BITS
+#ifdef JBG85_STRICT_ORDER_BITS
     if (s->buffer[18] != 0) return JBG_EIMPL |12; /* parameter outside T.85 */
 #endif
     if (s->options & 0x17)  return JBG_EIMPL |13; /* parameter outside T.85 */
