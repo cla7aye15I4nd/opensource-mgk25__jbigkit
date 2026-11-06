@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "target": "cla7aye15I4nd/opensource-mgk25__jbigkit",
+  "canonical_upstream": "https://www.cl.cam.ac.uk/~mgk25/git/jbigkit",
+  "source": {
+    "kind": "git",
+    "upstream_url": "https://www.cl.cam.ac.uk/~mgk25/git/jbigkit",
+    "branch": "master",
+    "revision": "7b0d5000421a6b4b333781169356adc2e0340479"
+  },
+  "publication_review": {
+    "license_files": [
+      "COPYING"
+    ],
+    "notice_files": [],
+    "public_fixture_key_markers": []
+  },
+  "upstream_tree_sha256": "9dfbe00f08ef017fa421c3ef5080e0410a9b9be0a8e8f98b127bf7154ad5acba",
+  "tree_sha256": "dde4500b262b6135da128f7e981c01498597e48c6ab601a68bf02ae341e31331"
+}
